@@ -12,6 +12,7 @@ require.config({
 		},
 
 		'underscore': {
+			// deps: [ 'utils' ],
 			exports: '_'
 		},
 
@@ -77,8 +78,8 @@ require.config({
 		// 	'switcher': 'switcher'
 		// },
 
-		'underscore': {
-			'utils': 'utils'
-		}
+		// 'underscore': {
+		// 	'utils': 'utils'
+		// }
 	}
 });

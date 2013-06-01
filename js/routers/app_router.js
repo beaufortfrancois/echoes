@@ -9,7 +9,7 @@ define([
 		routes: {
 			'': 'explore',
 			'explore': 'explore',
-			// 'history': 'history',
+			'history': 'history',
 			'access_token=:token&token_type=:tokenType&expires_in=:expires': 'connect',
 
 			'filter/:feedType': 'filter',
@@ -27,12 +27,10 @@ define([
 
 		explore: function() {
 			this.model.route('explore');
-			this.markNav('explore');
 		},
 
 		history: function() {
-			// this.model.route('history');
-			// this.markNav('history');
+			this.model.route('history');
 		},
 
 		connect: function(token, tokenType, expires) {
@@ -44,6 +42,7 @@ define([
 		},
 
 		filter: function(feedType) {
+			this.model.set('route', feedType);
 			this.model.set('filter', feedType);
 		},
 		/**
@@ -75,13 +74,6 @@ define([
 			if (_.isNumber(index) && playlistId !== "") {
 				this.navigate('play/playlist/' + playlistId + '/' + index, { trigger: false });
 			}
-		},
-
-		// TODO: should be from a View
-		markNav: function(route) {
-			$("#library-nav").find('li').removeClass('active')
-				.end()
-				.find("a[href^='#" + route + "']").parent().addClass('active');
 		}
 	});
    

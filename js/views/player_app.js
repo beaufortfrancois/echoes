@@ -13,16 +13,15 @@ define([
 	'views/facebook/facebook_like_view',
 	// 'views/infinite_scroller',
 
-	'collections/history_playlist',
 	'xManager',
 	'switcher'
 ], function(
 	$, _, Backbone,
 	MediaSearch, YoutubePlayer, ContentLayoutView,
 	ResultsNavigation, FeedFilter, YoutubePlaylistsProvider, UserProfileManager,
-	FacebookLikeView, 
-	// InfiniteScroll,
-	HistoryPlaylist) {
+	FacebookLikeView
+	// InfiniteScroll
+	) {
    
 	var PlayerApp = Backbone.View.extend({
 		el: '.container-main',
@@ -33,7 +32,6 @@ define([
 				youtubePlayer: new YoutubePlayer({ model: this.model }),
 				contentView: new ContentLayoutView({ model: this.model }),
 				resultsNav: new ResultsNavigation({ model: this.model }),
-				//	historyPlaylistData: new HistoryPlaylist()
 				searchFeedFilter: new FeedFilter({ model: this.model }),
 				userPlaylists: new YoutubePlaylistsProvider({ model: this.model }),
 				userProfileManager: new UserProfileManager({ model: this.model }),
@@ -46,6 +44,7 @@ define([
 			this.setSize();
 			// this.model.connectUser();
 			// show first time dialog
+			this.listenTo(this.model, 'change:route', this.markNav);
 			this.setFirstTimeDialog();
 		},
 
@@ -70,12 +69,13 @@ define([
 
 				$('#e-dialog').modal();
 			}
-		}
+		},
 
-		// renderHistory: function() {
-		// 	this.modules.contentView.update( this.modules.historyPlaylistData.toJSON().reverse() );
-		// 	return this;
-		// },
+		markNav: function(model, route) {
+			$("#library-nav").find('li').removeClass('active')
+				.end()
+				.find("a[href^='#" + route + "']").parent().addClass('active');
+		}
 
 	});
    

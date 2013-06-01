@@ -5,6 +5,8 @@ define([
 	'./youtube_media_provider',
 	'./youtube_profile_service',
 	'./youtube_player',
+	
+	'utils',
 	'safe',
 	'xManager'
 ], function(_, Backbone, 
@@ -15,18 +17,12 @@ define([
 	var PlayerModel = Backbone.Model.extend({
 		defaults: {
 			query: '',
-			// results layout state: video, playlist
-			layout: 'video',
+			// results filter state: video, playlist
 			filter: 'videos',
 
 			// handles the router navigation 'routes' object
-			route: null,
-			// properties for controling media playing
-			play: null,
-			mediaId: null,
-			// type: video/playlist
-			mediaOptions: { type: 'video' },
-			
+			route: 'videos',
+
 			// models
 			user: null,
 			youtube: null,
@@ -37,15 +33,12 @@ define([
 
 		initialize: function() {
 			// initialize models
-			// this.set('user', new UserProfileManager());
 			this.set('youtube', new YoutubeMediaProvider());
 			this.set('user', new YoutubeProfileService());
 			this.set('player', new YoutubePlayer());
 
 			// reset attributes that don't need cache
-			this.set('play', null);
-			this.set('route', null);
-			this.set('mediaId', null);
+			this.set('route', 'videos');
 
 			// register to app events
 			// this.on('change:route', this.onRouteChange);
@@ -57,11 +50,6 @@ define([
 		},
 		
 		/* handlers */
-		// onRouteChange: function(model, route) {
-			// var query = this.get('query');
-			// this.trigger('change:query', model, query || '');
-		// },
-		
 		onFilterChange: function(model, filter) {
 			this.youtube().set('feedType', filter);
 		},
@@ -111,9 +99,6 @@ define([
 		
 		playMedia: function(options) {
 			this.get('player').setOptions(options);
-			// this.set('mediaOptions', options);
-			// this.set('mediaId', mediaId);
-			// this.set('play', mediaId);
 		},
 
 		fetchCurrentMediaInfo: function() {

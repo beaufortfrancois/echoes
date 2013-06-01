@@ -23,8 +23,8 @@ define([
 			return [ 
 			"https://accounts.google.com/o/oauth2/auth?",
 			"client_id=" + this.cred.clientId + "&",
-			"redirect_uri=http://echotu.be/&",
-			// "redirect_uri=http://localhost:1234/echoes/&",
+			// "redirect_uri=http://echotu.be/&",
+			"redirect_uri=http://localhost:1234/echoes/&",
 			"scope=https://gdata.youtube.com&",
 			"response_type=token"
 			].join('');
@@ -47,6 +47,18 @@ define([
 				url = "https://gdata.youtube.com/feeds/api/users/default?access_token=" + this.get('token') + "&alt=json&v=2";
 			}
 			return url;
+		},
+
+		// TODO: create a seperated service that gets a token as a parameter
+		historyService: new Backbone.Model(),
+		history: function() {
+			var token = this.get('token'),
+				url = "";
+			if (token) {
+				url = "https://gdata.youtube.com/feeds/api/users/default/watch_history?access_token=" + this.get('token') + "&alt=json&v=2";
+			}
+			this.historyService.url = url;
+			this.historyService.fetch();
 		},
 
 		signin: function() {

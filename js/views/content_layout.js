@@ -3,17 +3,20 @@ define([
 	'underscore',
 	'backbone',
 	'views/youtube_search_results',
-	'views/youtube_playlists_results'
-], function($, _, Backbone, YoutubeSearchResults, YoutubePlaylistsResults) {
+	'views/youtube_playlists_results',
+	'views/youtube_history_view'
+], function($, _, Backbone, YoutubeSearchResults, YoutubePlaylistsResults, YoutubeHistoryView) {
 	
 	var ContentLayout = Backbone.View.extend({
 		el: '#search-results',
 
 		switcher: {
-			key: 'filter',
+			key: 'route',
 			views: {
 				videos: YoutubeSearchResults,
-				playlists: YoutubePlaylistsResults
+				explore: YoutubeSearchResults,
+				playlists: YoutubePlaylistsResults,
+				history: YoutubeHistoryView
 			}
 		},
 

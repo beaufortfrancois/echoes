@@ -4,10 +4,12 @@
 	var layout = Backbone.View.extend({
 		switcher: {
 			key: 'resource',
-			// 'key' may be a reference to multiple attributes values
+			// 'key' may be a reference to multiple attributes of "this.model"
 			// and may be defined as such:
 			// key: 'resource filter'
 
+			// viewA is a possible value of 'resource' key
+			// SomeViewA is a reference to a Backbone.View definition
 			views: {
 				viewA: SomeViewA,
 				viewB: SomeViewB
@@ -81,7 +83,7 @@
 		},
 
 		_start: function() {
-			this._handleResource(this.model, this.model.get(this.sw_keys));
+			this._handleResource(this.model, this.model.get(this.sw_keys[0]));
 		},
 
 		_parseOptions: function() {
@@ -119,6 +121,6 @@
 			this.currentView = this.currentView;
 			this.trigger("after:render");
 		}
-	}
+	};
 
 }());

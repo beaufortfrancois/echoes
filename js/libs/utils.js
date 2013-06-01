@@ -13,7 +13,7 @@ define([
 		// @param  {number} d number of seconds
 		// @return {string}
 		secondsToHms: function(d) {
-			d = Number(d);
+			d = Number(parseInt(d, 10));
 			var h = Math.floor(d / 3600);
 			var m = Math.floor(d % 3600 / 60);
 			var s = Math.floor(d % 3600 % 60);

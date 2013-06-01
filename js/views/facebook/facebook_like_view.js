@@ -15,7 +15,6 @@ define([
 		},
 
 		render: function() {
-			// var url = '#play/' + this.model.get('layout') + '/' + this.model.get('mediaId');
 			this.$el.html( this.template({ url: location.href }) );
 			if (FB) {
 				FB.XFBML.parse(this.el);
