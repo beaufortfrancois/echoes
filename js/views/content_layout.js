@@ -4,8 +4,9 @@ define([
 	'backbone',
 	'views/youtube_search_results',
 	'views/youtube_playlists_results',
-	'views/youtube_history_view'
-], function($, _, Backbone, YoutubeSearchResults, YoutubePlaylistsResults, YoutubeHistoryView) {
+	'views/youtube_history_view',
+	'views/youtube/my_playlists'
+], function($, _, Backbone, YoutubeSearchResults, YoutubePlaylistsResults, YoutubeHistoryView, MyPlaylists) {
 	
 	var ContentLayout = Backbone.View.extend({
 		el: '#search-results',
@@ -16,6 +17,7 @@ define([
 				videos: YoutubeSearchResults,
 				explore: YoutubeSearchResults,
 				playlists: YoutubePlaylistsResults,
+				"my-playlists": MyPlaylists,
 				history: YoutubeHistoryView
 			}
 		},

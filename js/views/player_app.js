@@ -11,6 +11,7 @@ define([
 	'views/youtube_playlists_provider',
 	'views/user_profile_manager',
 	'views/facebook/facebook_like_view',
+	'views/youtube/playlist_info',
 	// 'views/infinite_scroller',
 
 	'xManager',
@@ -19,7 +20,7 @@ define([
 	$, _, Backbone,
 	MediaSearch, YoutubePlayer, ContentLayoutView,
 	ResultsNavigation, FeedFilter, YoutubePlaylistsProvider, UserProfileManager,
-	FacebookLikeView
+	FacebookLikeView, PlaylistInfoView
 	// InfiniteScroll
 	) {
    
@@ -33,7 +34,8 @@ define([
 				contentView: new ContentLayoutView({ model: this.model }),
 				resultsNav: new ResultsNavigation({ model: this.model }),
 				searchFeedFilter: new FeedFilter({ model: this.model }),
-				userPlaylists: new YoutubePlaylistsProvider({ model: this.model }),
+				// userPlaylists: new YoutubePlaylistsProvider({ model: this.model }),
+				playlistInfo: new PlaylistInfoView({ model: this.model, el: $("#user-playlists") }),
 				userProfileManager: new UserProfileManager({ model: this.model }),
 				facebookLikeView: new FacebookLikeView({ model: this.model })
 				// infiniteScroll: new InfiniteScroll({ model: this.model })

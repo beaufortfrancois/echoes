@@ -39,10 +39,10 @@ define([
 				model: this.model.youtube().get('info')
 			});
 
-			this.currentPlaylistView = new PlaylistInfoView({
-				el: this.$('.playlist-info'),
-				model: this.model
-			});
+			// this.currentPlaylistView = new PlaylistInfoView({
+			// 	el: this.$('.playlist-info'),
+			// 	model: this.model
+			// });
 
 			this.listenTo(this.currentTrackInfoView, 'seek', this.seekToSeconds);
 

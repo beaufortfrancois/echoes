@@ -10,6 +10,7 @@ define([
 			'': 'explore',
 			'explore': 'explore',
 			'history': 'history',
+			'my-playlists': 'playlists',
 			'access_token=:token&token_type=:tokenType&expires_in=:expires': 'connect',
 
 			'filter/:feedType': 'filter',
@@ -31,6 +32,10 @@ define([
 
 		history: function() {
 			this.model.route('history');
+		},
+
+		playlists: function() {
+			this.model.route('playlists');
 		},
 
 		connect: function(token, tokenType, expires) {
