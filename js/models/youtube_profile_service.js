@@ -1,8 +1,9 @@
 define([
 	'underscore',
 	'backbone',
+	'models/YoutubeHistoryService',
 	'safe'
-], function(_, Backbone) {
+], function(_, Backbone, YoutubeHistoryService) {
    
     var YoutubeProfileService = Backbone.Model.extend({
 		safe: {
@@ -24,7 +25,7 @@ define([
 			"https://accounts.google.com/o/oauth2/auth?",
 			"client_id=" + this.cred.clientId + "&",
 			// "redirect_uri=http://echotu.be/&",
-			"redirect_uri=http://localhost:1234/echoes/&",
+			"redirect_uri=http://localhost:8000/index.html&",
 			"scope=https://gdata.youtube.com&",
 			"response_type=token"
 			].join('');
@@ -50,14 +51,7 @@ define([
 		},
 
 		// TODO: create a seperated service that gets a token as a parameter
-		historyService: new Backbone.Model(),
 		history: function() {
-			var token = this.get('token'),
-				url = "";
-			if (token) {
-				url = "https://gdata.youtube.com/feeds/api/users/default/watch_history?access_token=" + this.get('token') + "&alt=json&v=2";
-			}
-			this.historyService.url = url;
 			this.historyService.fetch();
 		},
 
@@ -66,6 +60,7 @@ define([
 		},
 			// require([this.authUrls.signin.call(this)], _.bind(this.onProfileChange, this));
 		initialize: function() {
+			this.historyService = new YoutubeHistoryService(this.cred.token);
 			this.on('change:token', this.fetchProfile, this);
 			this.on('change:author', this.onProfileChange, this);
 			this.safe.reload();
@@ -73,6 +68,7 @@ define([
 
 		fetchProfile: function(model, token){
 			this.cred.token = token;
+			this.historyService.token = token;
 			this.url = this.profile();
 			if (this.url) {
 				this.fetch();

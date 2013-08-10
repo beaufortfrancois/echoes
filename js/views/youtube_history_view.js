@@ -23,6 +23,10 @@ define([
 			css: 'transition-in'
 		},
 
+		events: {
+			'click .show-more': 'loadMore'
+		},
+
 		// TODO: add paging
 		initialize: function() {
 			this.listenTo(this.model.user().historyService, 'change:feed', this.updateCollection);
@@ -33,12 +37,11 @@ define([
 		updateCollection: function (historyFeed) {
 			var entries = _.map(historyFeed.get('feed').entry, function(entry){
 				var video = entry.media$group;
-				// var hqDefault = _.find()
 				return {
 					id: video.yt$videoid.$t,
-					title: video.media$title.$t,
-					description: video.media$description.$t,
-					duration: video.yt$duration.seconds,
+					title: video.media$title ? video.media$title.$t : '',
+					description: video.media$description ? video.media$description.$t : '',
+					duration: video.yt$duration ? video.yt$duration.seconds : '',
 					likeCount: entry.yt$rating ? entry.yt$rating.numLikes : 0,
 					thumbnail: {
 						hqDefault: video.media$thumbnail[0].url
@@ -46,7 +49,25 @@ define([
 					isPlaying: false
 				};
 			});
+			// add dummy item for loading more
+			entries.push({
+				id: '',
+				title: "Show more from history",
+				description: "This will load more videos you watched in the past",
+				duration: '',
+				likeCount: 0,
+				thumbnail: {
+					hqDefault: ''
+				},
+				isPlaying: false
+			});
 			this.collection.reset(entries);
+		},
+
+		loadMore: function(ev){
+			console.log('clicked');return
+			ev.preventDefault();
+			this.model.user().historyService.updateNextIndex().fetch();
 		}
 
 	});
